@@ -33,6 +33,6 @@ function DataTable({ headings, users, handleSort }) {
       </table>
     </div>
   );
-}
+};
 
 export default DataTable;
