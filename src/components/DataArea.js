@@ -9,7 +9,7 @@ export default class DataArea extends Component {
     users: [{}],
     order: "descend",
     filteredUsers: [{}]
-  };
+  }
 
   headings = [
     { name: "Image", width: "10%" },
@@ -17,62 +17,65 @@ export default class DataArea extends Component {
     { name: "Phone", width: "20%" },
     { name: "Email", width: "20%" },
     { name: "DOB", width: "10%" }
-  ];
+  ]
 
-  // Sorts workers by name
-  sort = heading => {
+  handleSort = heading => {
     if (this.state.order === "descend") {
       this.setState({
         order: "ascend"
-      });
+      })
     } else {
       this.setState({
         order: "descend"
-      });
-    };
+      })
+    }
 
-    // Compare heading values and check for missing data
-    const compare = (headingOne, headingTwo) => {
+    const compare = (a, b) => {
       if (this.state.order === "ascend") {
-        if (headingOne[heading] === undefined) {
+        // account for missing values
+        if (a[heading] === undefined) {
           return 1;
-        } else if (headingTwo[heading] === undefined) {
+        } else if (b[heading] === undefined) {
           return -1;
-        } else if (heading === "name") {
-          return headingOne[heading].first.localeCompare(headingTwo[heading].first);
+        }
+        // numerically
+        else if (heading === "name") {
+          return a[heading].first.localeCompare(b[heading].first);
         } else {
-          return headingOne[heading] - headingTwo[heading];
-        };
+          return a[heading] - b[heading];
+        }
       } else {
-        if (headingOne[heading] === undefined) {
+        // account for missing values
+        if (a[heading] === undefined) {
           return 1;
-        } else if (headingTwo[heading] === undefined) {
+        } else if (b[heading] === undefined) {
           return -1;
-        } else if (heading === "name") {
-          return headingTwo[heading].first.localeCompare(headingOne[heading].first);
+        }
+        // numerically
+        else if (heading === "name") {
+          return b[heading].first.localeCompare(a[heading].first);
         } else {
-          return headingTwo[heading] - headingOne[heading];
-        };
-      };
-    };
+          return b[heading] - a[heading];
+        }
+      }
 
-    const sortedWorkers = this.state.filteredUsers.sort(compare);
-    this.setState({ filteredUsers: sortedWorkers });
-  };
+    }
+    const sortedUsers = this.state.filteredUsers.sort(compare);
+    this.setState({ filteredUsers: sortedUsers });
+  }
 
-  // handleSearchChange function merges data and checks for user input inside filtered list
   handleSearchChange = event => {
     console.log(event.target.value);
     const filter = event.target.value;
     const filteredList = this.state.users.filter(item => {
+      // merge data together, then see if user input is anywhere inside
       let values = Object.values(item).join("").toLowerCase();
       return values.indexOf(filter.toLowerCase()) !== -1;
     });
     this.setState({ filteredUsers: filteredList });
   };
 
-  // Pulls random users from the API provided
-  componentDidMount() {
+  mountComponent() {
     API.getUsers().then(results => {
       this.setState({
         users: results.data.results,
@@ -89,7 +92,7 @@ export default class DataArea extends Component {
           <DataTable
             headings={this.headings}
             users={this.state.filteredUsers}
-            handleSort={this.sort}
+            handleSort={this.handleSort}
           />
         </div>
       </>

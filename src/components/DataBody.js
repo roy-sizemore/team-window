@@ -10,7 +10,7 @@ function DataBody({ users }) {
     const day = dayArray[0];
     const formattedDate = [month, day, year].join("-");
     return formattedDate;
-  };
+  }
 
   return (
     <tbody>
@@ -47,6 +47,6 @@ function DataBody({ users }) {
       )}
     </tbody>
   );
-};
+}
 
 export default DataBody;

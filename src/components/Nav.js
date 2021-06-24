@@ -10,6 +10,5 @@ function Nav({ handleSearchChange }) {
       </div>
     </nav>
   );
-};
-
+}
 export default Nav;
