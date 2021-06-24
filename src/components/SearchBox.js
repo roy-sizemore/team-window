@@ -10,10 +10,11 @@ function SearchBox({ handleSearchChange }) {
           type="search"
           placeholder="Search"
           aria-label="Search"
-          onChange={e => handleSearchChange(e)}
+          onChange={change => handleSearchChange(change)}
         />
       </form>
     </div>
   );
-}
+};
+
 export default SearchBox;
